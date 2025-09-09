@@ -6,7 +6,7 @@ using Testbed.Common.Models.Interfaces;
 using static Testbed.Common.Enums.AnimalEnums;
 internal class Program
 {
-    private const int V = 1;
+    private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
 
     private static void Main(string[] args)
     {
@@ -29,7 +29,7 @@ internal class Program
     {
         List<Animal> returnValue = new List<Animal>();
         // create at least 1 animal
-        int numberOfAnimals = RandomNumberGenerator.GetInt32(20) + 1;
+        int numberOfAnimals = RandomNumberGenerator.GetInt32(MAX_NUMBER_RANDOM_ANIMALS) + 1;
 
         for (int counter = 0; counter < numberOfAnimals; counter++)
         {
