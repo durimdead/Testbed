@@ -4,10 +4,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
-
-        IAnimal cat = new Cat();
-
-        Console.WriteLine(cat.Speak());
+        IAnimal cat = new Cat("Sylvester");
+        string animalType = cat.GetType().ToString().Split(".").Last().ToLower();
+        Console.WriteLine(cat.Name + " the " + animalType + " says " + cat.Speak());
     }
 }

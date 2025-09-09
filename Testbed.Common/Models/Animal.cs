@@ -9,6 +9,8 @@ namespace Testbed.Common.Models
 {
     public abstract class Animal : IAnimal
     {
+        public abstract string Name { get; set; }
+
         public abstract string Speak();
     }
 }
