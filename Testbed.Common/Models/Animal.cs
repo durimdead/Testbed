@@ -88,10 +88,8 @@ namespace Testbed.Common.Models
 
         private void RandomizeJudgement()
         {
-            int randomNumber = RandomNumberGenerator.GetInt32(2);
-            Console.WriteLine(randomNumber);
-            Console.WriteLine(randomNumber % 2);
-            if (randomNumber % 2 == 1)
+            int randomNumber = RandomNumberGenerator.GetInt32(10);
+            if (randomNumber == 1)
             {
                 isJudgingYou = true;
             }
