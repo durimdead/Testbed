@@ -12,7 +12,7 @@ internal class Program
 
         foreach(IAnimal currentAnimal in animals)
         {
-            currentAnimal.Speak();
+            currentAnimal.Interact();
         }
     }
 }
