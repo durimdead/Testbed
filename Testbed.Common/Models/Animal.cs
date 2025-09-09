@@ -10,7 +10,7 @@ namespace Testbed.Common.Models
     public class Animal : IAnimal
     {
         public virtual string Name { get; set; } = "...";
-        public virtual string AnimalSound { get; set; } = "...";
+        public virtual string AnimalSound { get; } = "...";
 
         public virtual void Speak()
         {

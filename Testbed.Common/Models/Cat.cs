@@ -9,7 +9,7 @@ namespace Testbed.Common.Models
 {
     public class Cat : Animal
     {
-        public override string AnimalSound { get; set; } = "Meow!";
+        public override string AnimalSound { get; } = "Meow!";
 
         public Cat(string name)
         {
