@@ -10,6 +10,7 @@ namespace Testbed.Common.Models
     public abstract class Animal : IAnimal
     {
         public abstract string Name { get; set; }
+        internal abstract string AnimalSound { get; set; }
 
         public abstract string Speak();
     }

@@ -9,7 +9,7 @@ namespace Testbed.Common.Models
 {
     public class Cat : Animal
     {
-        private readonly string ANIMAL_SOUND = "Meow!";
+        internal override string AnimalSound { get; set; } = "Meow!";
 
         public Cat(string name)
         {
@@ -20,7 +20,7 @@ namespace Testbed.Common.Models
 
         public override string Speak()
         {
-            return this.ANIMAL_SOUND;
+            return this.AnimalSound;
         }
     }
 }
