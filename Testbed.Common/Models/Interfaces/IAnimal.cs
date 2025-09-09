@@ -9,12 +9,12 @@ namespace Testbed.Common.Models.Interfaces
     public interface IAnimal
     {
         string Name { get; set; }
-        string AnimalSound { get; set; }
+        internal string AnimalSound { get; set; }
+
         /// <summary>
         /// To hear what the animal would say
         /// </summary>
-        /// <returns>A string with the noise that the animal makes.</returns>
-        public string Speak();
+        public void Speak();
  
     }
 }

@@ -5,7 +5,14 @@ internal class Program
     private static void Main(string[] args)
     {
         IAnimal cat = new Cat("Sylvester");
-        string animalType = cat.GetType().ToString().Split(".").Last().ToLower();
-        Console.WriteLine(cat.Name + " the " + animalType + " says " + cat.Speak());
+        IAnimal dog = new Dog("Fido");
+
+        List<IAnimal> animals = new List<IAnimal>() { cat, dog };
+        animals.Add(new Dog("Sparky"));
+
+        foreach(IAnimal currentAnimal in animals)
+        {
+            currentAnimal.Speak();
+        }
     }
 }

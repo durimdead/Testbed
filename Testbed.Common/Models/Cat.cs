@@ -9,7 +9,7 @@ namespace Testbed.Common.Models
 {
     public class Cat : Animal
     {
-        internal override string AnimalSound { get; set; } = "Meow!";
+        public override string AnimalSound { get; set; } = "Meow!";
 
         public Cat(string name)
         {
@@ -17,10 +17,5 @@ namespace Testbed.Common.Models
         }
 
         public override string Name { get; set; }
-
-        public override string Speak()
-        {
-            return this.AnimalSound;
-        }
     }
 }

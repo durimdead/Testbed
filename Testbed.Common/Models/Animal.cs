@@ -7,11 +7,15 @@ using Testbed.Common.Models.Interfaces;
 
 namespace Testbed.Common.Models
 {
-    public abstract class Animal : IAnimal
+    public class Animal : IAnimal
     {
-        public abstract string Name { get; set; }
-        internal abstract string AnimalSound { get; set; }
+        public virtual string Name { get; set; } = "...";
+        public virtual string AnimalSound { get; set; } = "...";
 
-        public abstract string Speak();
+        public virtual void Speak()
+        {
+            string animalType = this.GetType().ToString().Split(".").Last().ToLower();
+            Console.WriteLine(this.Name + " the " + animalType + " says " + this.AnimalSound);
+        }
     }
 }
