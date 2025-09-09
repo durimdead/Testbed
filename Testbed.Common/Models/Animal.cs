@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Testbed.Common.Models.Interfaces;
@@ -12,6 +13,14 @@ namespace Testbed.Common.Models
         public virtual string Name { get; set; } = string.Empty;
         public virtual string AnimalSound { get; } = string.Empty;
         public virtual Enums.AnimalEnums.TravelType AnimalTravelType { get; } = Enums.AnimalEnums.TravelType.None;
+
+        private bool isJudgingYou = false;
+        private string animalType;
+        public Animal()
+        {
+            RandomizeJudgement();
+            animalType = this.GetType().ToString().Split(".").Last().ToLower();
+        }
 
         public virtual void Interact()
         {
@@ -32,7 +41,6 @@ namespace Testbed.Common.Models
 
         public virtual string Greet()
         {
-            string animalType = this.GetType().ToString().Split(".").Last().ToLower();
             string returnValue = "Say hello to ";
             if (this.Name != string.Empty)
             {
@@ -45,12 +53,48 @@ namespace Testbed.Common.Models
 
         public virtual string Speak()
         {
-            return this.AnimalSound != string.Empty ? "It says " + this.AnimalSound + ". " : string.Empty;
+            string returnValue = string.Empty;
+            
+            if (this.AnimalSound != string.Empty)
+            {
+                if (isJudgingYou)
+                {
+                    returnValue = "The " + animalType + " is staring into your soul. You can feel it judging you. Silently. Maliciously. Then, suddenly, it lets out a faint sound... '" + this.AnimalSound + "'";
+                }
+                else { 
+                    returnValue = "It says " + this.AnimalSound + "!";
+                }
+            }
+
+                return returnValue;
         }
 
         public virtual string Travel()
         {
-            return this.AnimalTravelType != Enums.AnimalEnums.TravelType.None ? "They " + this.AnimalTravelType.ToString().ToLower() + " around happily!" : string.Empty;
+            string returnValue = string.Empty;
+            if (this.AnimalTravelType != Enums.AnimalEnums.TravelType.None)
+            {
+                if (isJudgingYou)
+                {
+                    returnValue = "The " + this.animalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
+                }
+                else
+                {
+                    returnValue = "They " + this.AnimalTravelType.ToString().ToLower() + " around happily!";
+                }
+            }
+            return returnValue;
+        }
+
+        private void RandomizeJudgement()
+        {
+            int randomNumber = RandomNumberGenerator.GetInt32(2);
+            Console.WriteLine(randomNumber);
+            Console.WriteLine(randomNumber % 2);
+            if (randomNumber % 2 == 1)
+            {
+                isJudgingYou = true;
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Testbed.Common.Models
 {
     public class Cat : Animal
     {
-        public override string AnimalSound { get; } = "Meow!";
+        public override string AnimalSound { get; } = "Meow";
         public override string Name { get; set; }
         public override AnimalEnums.TravelType AnimalTravelType { get; } = AnimalEnums.TravelType.Walk;
 
