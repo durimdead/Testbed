@@ -49,14 +49,15 @@ internal class Program
         List<Animal> returnValue = new List<Animal>();
         // create at least 1 animal
         int numberOfAnimals = RandomNumberGenerator.GetInt32(MAX_NUMBER_RANDOM_ANIMALS) + 1;
+        // grab all subClasses of Animal
+        var animalTypes = GetAllSubClasses(typeof(Animal), "Testbed.Common");
 
         for (int counter = 0; counter < numberOfAnimals; counter++)
         {
             // generate a random name ~80% of the time
             string animalName = RandomNumberGenerator.GetInt32(5) > 0 ? GetRandomName() : string.Empty;
 
-            // generate a random animal type based on the set of classes that are subclasses of Animal
-            var animalTypes = GetAllSubClasses(typeof(Animal), "Testbed.Common");
+            // create random animal
             int randomizeAnimalType = RandomNumberGenerator.GetInt32(animalTypes.Length);
             Animal newAnimal = (Animal)Activator.CreateInstance(animalTypes[randomizeAnimalType], animalName)!;
             returnValue.Add(newAnimal);
