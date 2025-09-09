@@ -7,7 +7,7 @@ using Testbed.Common.Models.Interfaces;
 
 namespace Testbed.Common.Models
 {
-    public class Animal : IAnimal
+    public abstract class Animal : IAnimal
     {
         public virtual string Name { get; set; } = "...";
         public virtual string AnimalSound { get; } = "...";
