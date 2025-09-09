@@ -20,11 +20,5 @@ namespace Testbed.Common.Models
             Name = name;
             this.AnimalTravelType = RandomizeTravelType();
         }
-
-        public Cat()
-        {
-            this.AnimalTravelType = RandomizeTravelType();
-            this.Name = string.Empty;
-        }
     }
 }
