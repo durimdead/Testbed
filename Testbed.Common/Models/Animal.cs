@@ -17,12 +17,20 @@ namespace Testbed.Common.Models
 
         private bool isJudgingYou = false;
         private string animalType;
+
+        /// <summary>
+        /// Constructor - Randomize Judgement will happen here regardless of what child is created since it will also create the parent.
+        /// This way, the child classes don't have to worry about figuring out if they are in a judgement-free zone.
+        /// </summary>
         public Animal()
         {
             RandomizeJudgement();
             animalType = this.GetType().ToString().Split(".").Last().ToLower();
         }
 
+        /// <summary>
+        /// Performs all interactions with the animal, skipping any that don't have the full set of information required for the interaction.
+        /// </summary>
         public virtual void Interact()
         {
             List<string> interactions = new List<string>();
@@ -40,6 +48,10 @@ namespace Testbed.Common.Models
             Console.WriteLine("-----");
         }
 
+        /// <summary>
+        /// Greeting the animal
+        /// </summary>
+        /// <returns>String of the animal type and name (if one exists for the animal)</returns>
         public virtual string Greet()
         {
             string returnValue = "Say hello to ";
@@ -52,6 +64,10 @@ namespace Testbed.Common.Models
             return returnValue;
         }
 
+        /// <summary>
+        /// The animal will make a sound to you, if one exists for them. If they are "judging you", you will get a snarkier message
+        /// </summary>
+        /// <returns>string with animal speech</returns>
         public virtual string Speak()
         {
             string returnValue = string.Empty;
@@ -71,6 +87,10 @@ namespace Testbed.Common.Models
             return returnValue;
         }
 
+        /// <summary>
+        /// The animal will be moving around in some way if they currently have a "TravelType" assigned to them. Regardless of the TravelType, you will get a different message if the animal is currently judging you
+        /// </summary>
+        /// <returns>string with animal travel description</returns>
         public virtual string Travel()
         {
             string returnValue = string.Empty;
@@ -85,6 +105,9 @@ namespace Testbed.Common.Models
             return returnValue;
         }
 
+        /// <summary>
+        /// Randomly decides if the animal is judging you
+        /// </summary>
         private void RandomizeJudgement()
         {
             int randomNumber = RandomNumberGenerator.GetInt32(10);
@@ -94,24 +117,27 @@ namespace Testbed.Common.Models
             }
         }
 
-        internal AnimalEnums.TravelType RandomizeTravelType(bool canFly = false)
+        /// <summary>
+        /// randomized the travel type, accounting for whether the animal can fly or not
+        /// </summary>
+        /// <param name="canSwim">If true, there is a chance that the animal will be swimming</param>
+        /// <param name="canFly">If true, there is a chance that the animal will be flying</param>
+        /// <returns>AnimalEnums.TravelType</returns>
+        internal AnimalEnums.TravelType RandomizeTravelType(bool canSwim = false, bool canFly = false)
         {
-            int randomNumberSeed = canFly ? 4 : 3;
+            int randomNumberSeed = 4;
             int randomNumber = RandomNumberGenerator.GetInt32(randomNumberSeed);
             AnimalEnums.TravelType returnValue;
             switch (randomNumber)
             {
-                case 0:
-                    returnValue = AnimalEnums.TravelType.None;
-                    break;
                 case 1:
                     returnValue = AnimalEnums.TravelType.Walk;
                     break;
                 case 2:
-                    returnValue = AnimalEnums.TravelType.Swim;
+                    returnValue = canSwim ? AnimalEnums.TravelType.Swim : AnimalEnums.TravelType.None;
                     break;
                 case 3:
-                    returnValue = AnimalEnums.TravelType.Fly;
+                    returnValue = canFly ? AnimalEnums.TravelType.Fly : AnimalEnums.TravelType.None;
                     break;
                 default:
                     returnValue = AnimalEnums.TravelType.None;

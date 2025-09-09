@@ -13,10 +13,14 @@ namespace Testbed.Common.Models
         public override string AnimalSound { get; } = "Woof";
         public override AnimalEnums.TravelType AnimalTravelType { get; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name">The name of the Dog</param>
         public Dog(string name)
         {
             Name = name;
-            this.AnimalTravelType = RandomizeTravelType();
+            this.AnimalTravelType = RandomizeTravelType(true);
         }
     }
 }

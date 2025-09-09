@@ -1,25 +1,38 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using Testbed.Common.Models;
 using Testbed.Common.Models.Interfaces;
 using static Testbed.Common.Enums.AnimalEnums;
 internal class Program
 {
+    //TODO: 
+    //      - Attributes to be added:
+    //          - Add in the ability to show how many "limbs" and the "type" of limbs they have (i.e. 2 wings vs 4 legs)
+    //          - Height
+    //          - Weight
+    //          - Age
+    //          - IsTrained
+    //          - IsDomesticated
+    //      - Create a few more animal classes
+    //      - Move the random name generation somewhere else?
+    //      - Add in the ability to show how many "limbs" and the "type" of limbs they have (i.e. 2 wings vs 4 legs)
+    //      - Use vector instead of array for names to avoid having to state how many names there are?
+    //      - Create a way to organize the animals by attributes (name, limbs, height, weight, action being taken, etc)
+    //      - List out how many judgemental animals we have
+    
+
+
+
+
+
     private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
 
     private static void Main(string[] args)
     {
-        //Animal cat = new Cat("Sylvester");
-        //Animal dog = new Dog("Fido");
-
-        //List<Animal> animals = new List<Animal>() { cat, dog };
-        //animals.Add(new Dog("Sparky"));
-        //animals.Add(new Cat(""));
-
-
-
-        // create a random set of animals and then interact with them
+        // Create a random set of animals and then interact with them
         var randomAnimals = CreateRandomSetOfAnimals();
         foreach (IAnimal currentAnimal in randomAnimals)
         {
@@ -42,13 +55,44 @@ internal class Program
             // generate a random name ~80% of the time
             string animalName = RandomNumberGenerator.GetInt32(5) > 0 ? GetRandomName() : string.Empty;
 
-            // generate a random animal type based on a predetermined list of types and add it to the return set
-            Type[] animalTypes = new Type[] { typeof(Cat), typeof(Dog), typeof(Bird) };
+            // generate a random animal type based on the set of classes that are subclasses of Animal
+            var animalTypes = GetAllSubClasses(typeof(Animal), "Testbed.Common");
             int randomizeAnimalType = RandomNumberGenerator.GetInt32(animalTypes.Length);
             Animal newAnimal = (Animal)Activator.CreateInstance(animalTypes[randomizeAnimalType], animalName)!;
             returnValue.Add(newAnimal);
         }
         return returnValue;
+    }
+
+    /// <summary>
+    /// Returns a list of all subClasses of a given parentClass
+    /// </summary>
+    /// <param name="parentClass">The parent class you're looking for children of</param>
+    /// <param name="assemblyPartialName">OPTIONAL: if included, will filter the assemblies by <paramref name="assemblyPartialName"/>. If not included, will search ALL assemblies for the given type.</param>
+    /// <returns></returns>
+    public static Type[] GetAllSubClasses(Type parentClass, string assemblyPartialName = "")
+    {
+        List<Type> returnValue = new List<Type>();
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        //List the assemblies in the current application domain.
+        foreach (Assembly assem in assemblies)
+        {
+            string assemblyName = assem.ToString();
+            // search based on the partial or whole name of the assembly passed in
+            if (assemblyName.Contains(assemblyPartialName) || assemblyPartialName == string.Empty)
+            {
+                foreach (var currentType in assem.GetTypes())
+                {
+                    // for each of the types in the assemblies, add it to the return value if it's a subClass of the parent type
+                    if (currentType.IsSubclassOf(parentClass))
+                    {
+                        returnValue.Add(currentType);
+                    }
+                }
+            }
+        }
+
+        return returnValue.ToArray();
     }
 
     /// <summary>
