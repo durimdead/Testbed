@@ -9,6 +9,7 @@ internal class Program
 
         List<Animal> animals = new List<Animal>() { cat, dog };
         animals.Add(new Dog("Sparky"));
+        animals.Add(new Cat(""));
 
         foreach(IAnimal currentAnimal in animals)
         {

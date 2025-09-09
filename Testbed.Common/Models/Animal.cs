@@ -50,7 +50,7 @@ namespace Testbed.Common.Models
 
         public virtual string Travel()
         {
-            return this.AnimalTravelType != Enums.AnimalEnums.TravelType.None ? "They " + this.AnimalTravelType.ToString() + " around happily!" : string.Empty;
+            return this.AnimalTravelType != Enums.AnimalEnums.TravelType.None ? "They " + this.AnimalTravelType.ToString().ToLower() + " around happily!" : string.Empty;
         }
     }
 }
