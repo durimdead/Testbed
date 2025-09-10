@@ -45,15 +45,12 @@ namespace Testbed.Console
                 // input was valid, so perform the action requested
                 if (wasValidInput)
                 {
-                    switch (userChoice)
+                    // if the last option was chosen, the user is exiting the application
+                    if (userChoice == _userOptions.Count)
                     {
-                        case 1:
-                            PlayWithAnimals();
-                            break;
-                        case 2:
-                            isExiting = true;
-                            break;
+                        isExiting = true;
                     }
+                    _userOptions.Single(x => x.UserOptionId == userChoice).Start();
                 }
             } while (!isExiting);
         }

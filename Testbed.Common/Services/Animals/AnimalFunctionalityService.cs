@@ -49,6 +49,11 @@ namespace Testbed.Common.Services.Animals
             return returnValue;
         }
 
+        public override void Start()
+        {
+            System.Console.WriteLine("Now playing with the animals!");
+        }
+
         /// <summary>
         /// gets a single, random name from a list of 1000 names
         /// </summary>

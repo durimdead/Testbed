@@ -18,5 +18,15 @@ namespace Testbed.Common.Models
             UserOptionDescription = description;
             UserOptionName = name == string.Empty ? description : name;
         }
+
+
+        /// <summary>
+        /// We will use this to start the interaction with the User Option
+        /// </summary>
+        public virtual void Start()
+        {
+            // if we are not overriding this, we assume that the application will be exiting.
+            System.Console.WriteLine("Now Exiting the application");
+        }
     }
 }
