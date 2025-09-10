@@ -9,8 +9,8 @@ using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Animals;
 using Testbed.Common.Services.Interfaces;
-using Testbed.Common.Services;
 using Testbed.Common.Models;
+using Testbed.Common.Helpers;
 
 namespace Testbed.Console
 {
@@ -32,12 +32,12 @@ namespace Testbed.Console
             do
             {
                 // show the options and get the user's choice
-                AddConsolePadding(3);
+                ConsoleHelper.AddConsolePadding(3);
                 ShowOptions();
                 bool wasValidInput = true;
                 string? userInput = System.Console.ReadLine();
                 int userChoice = 0;
-                AddConsolePadding(2);
+                ConsoleHelper.AddConsolePadding(2);
 
                 // ensure the input was an integer and a valid choice
                 if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _mainMenuOptions.Count)))
@@ -65,11 +65,9 @@ namespace Testbed.Console
         private static void ShowOptions()
         {
             System.Console.WriteLine("What would you like to do?: ");
-            int currentOptionNumber = 1;
             foreach (MainMenuOption currentOption in _mainMenuOptions)
             {
                 System.Console.WriteLine(currentOption.MainMenuOptionId.ToString() + ") " + currentOption.MainMenuOptionDescription);
-                currentOptionNumber++;
             }
         }
 
@@ -79,7 +77,7 @@ namespace Testbed.Console
         private static void PopulateMainMenuOptions()
         {
             // grab all subClasses of MainMenuOption
-            var mainMenuOptions = CommonService.GetAllSubClasses(typeof(MainMenuOption), "Testbed.Common");
+            var mainMenuOptions = CommonHelper.GetAllSubClasses(typeof(MainMenuOption), "Testbed.Common");
             int counter = 1;
 
             // populates an option for each child of MainMenuOption class
@@ -92,18 +90,6 @@ namespace Testbed.Console
 
             // adds a final option for exiting the application
             _mainMenuOptions.Add(new MainMenuOption(counter, "Exit Application", "Exit"));
-        }
-
-        /// <summary>
-        /// Just adds some blank space on the console for readability
-        /// </summary>
-        /// <param name="numberOfLines">number of blank lines to print out</param>
-        private static void AddConsolePadding(int numberOfLines)
-        {
-            for (int count = 0; count < numberOfLines; count++)
-            {
-                System.Console.WriteLine();
-            }
         }
     }
 }

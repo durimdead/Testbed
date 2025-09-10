@@ -6,9 +6,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Testbed.Common.Services
+namespace Testbed.Common.Helpers
 {
-    public static class CommonService
+    public static class CommonHelper
     {
 
         /// <summary>

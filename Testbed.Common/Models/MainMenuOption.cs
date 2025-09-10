@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Testbed.Common.Models.Interfaces;
 
 namespace Testbed.Common.Models
 {
-    public class MainMenuOption
+    public class MainMenuOption : IMenuOptionHolder
     {
         public int MainMenuOptionId { get; private set; }
         public string MainMenuOptionName { get; private set; }
@@ -36,6 +37,12 @@ namespace Testbed.Common.Models
         {
             // if we are not overriding this, we assume that the application will be exiting.
             System.Console.WriteLine("Now Exiting the application");
+        }
+
+        ///
+        public virtual void ShowOptions()
+        {
+            // nothing to do here by default
         }
     }
 }
