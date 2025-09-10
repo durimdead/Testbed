@@ -5,14 +5,24 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Testbed.Common.Models;
 using Testbed.Common.Models.Animals;
 using Testbed.Common.Services.Interfaces;
 
 namespace Testbed.Common.Services.Animals
 {
-    public class AnimalFunctionalityService: IAnimalFunctionality
+    public class AnimalFunctionalityService: UserOption, IAnimalFunctionality
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
+        public const string USER_OPTION_DESCRIPTION = "Play with Animals";
+
+        public AnimalFunctionalityService(int userOptionId) : base(userOptionId, USER_OPTION_DESCRIPTION, string.Empty)
+        {
+        }
+        public AnimalFunctionalityService(UserOption userOption) : base(userOption.UserOptionId, userOption.UserOptionDescription, userOption.UserOptionName)
+        {
+        }
+
         /// <summary>
         /// Creates a random set of animals
         /// </summary>
@@ -23,7 +33,8 @@ namespace Testbed.Common.Services.Animals
             // create at least 1 animal
             int numberOfAnimals = RandomNumberGenerator.GetInt32(MAX_NUMBER_RANDOM_ANIMALS) + 1;
             // grab all subClasses of Animal
-            var animalTypes = GetAllSubClasses(typeof(Animal), "Testbed.Common");
+            CommonService commonService = new CommonService();
+            var animalTypes = commonService.GetAllSubClasses(typeof(Animal), "Testbed.Common");
 
             for (int counter = 0; counter < numberOfAnimals; counter++)
             {
@@ -36,37 +47,6 @@ namespace Testbed.Common.Services.Animals
                 returnValue.Add(newAnimal);
             }
             return returnValue;
-        }
-
-        /// <summary>
-        /// Returns a list of all subClasses of a given parentClass
-        /// </summary>
-        /// <param name="parentClass">The parent class you're looking for children of</param>
-        /// <param name="assemblyPartialName">OPTIONAL: if included, will filter the assemblies by <paramref name="assemblyPartialName"/>. If not included, will search ALL assemblies for the given type.</param>
-        /// <returns></returns>
-        private Type[] GetAllSubClasses(Type parentClass, string assemblyPartialName = "")
-        {
-            List<Type> returnValue = new List<Type>();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            //List the assemblies in the current application domain.
-            foreach (Assembly assem in assemblies)
-            {
-                string assemblyName = assem.ToString();
-                // search based on the partial or whole name of the assembly passed in
-                if (assemblyName.Contains(assemblyPartialName) || assemblyPartialName == string.Empty)
-                {
-                    foreach (var currentType in assem.GetTypes())
-                    {
-                        // for each of the types in the assemblies, add it to the return value if it's a subClass of the parent type
-                        if (currentType.IsSubclassOf(parentClass))
-                        {
-                            returnValue.Add(currentType);
-                        }
-                    }
-                }
-            }
-
-            return returnValue.ToArray();
         }
 
         /// <summary>

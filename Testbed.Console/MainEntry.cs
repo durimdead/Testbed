@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Animals;
 using Testbed.Common.Services.Interfaces;
+using Testbed.Common.Services;
+using Testbed.Common.Models;
 
 namespace Testbed.Console
 {
@@ -15,7 +19,8 @@ namespace Testbed.Console
     /// </summary>
     public static class MainEntry
     {
-        private static List<string> userOptions = new List<string>();
+        private static List<UserOption> _userOptions = new List<UserOption>();
+        private static CommonService _commonService = new CommonService();
         public static void Start()
         {
             System.Console.WriteLine("Welcome to the application!");
@@ -32,7 +37,7 @@ namespace Testbed.Console
                 AddConsolePadding(2);
 
                 // ensure the input was an integer and a valid choice
-                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= userOptions.Count)))
+                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _userOptions.Count)))
                 {
                     wasValidInput = false;
                 }
@@ -57,23 +62,32 @@ namespace Testbed.Console
         {
             System.Console.WriteLine("What would you like to do?: ");
             int currentOptionNumber = 1;
-            foreach (string currentOption in userOptions)
+            foreach (UserOption currentOption in _userOptions)
             {
-                System.Console.WriteLine(currentOptionNumber.ToString() + ") " + currentOption);
+                System.Console.WriteLine(currentOption.UserOptionId.ToString() + ") " + currentOption.UserOptionDescription);
                 currentOptionNumber++;
             }
         }
 
         private static void PopulateUserOptions()
         {
-            userOptions.Add("Work with the animals");
-            userOptions.Add("Exit");
+            // grab all subClasses of UserOption
+            var userOptions = _commonService.GetAllSubClasses(typeof(UserOption), "Testbed.Common");
+            int counter = 1;
+            foreach (var currentUserOption in userOptions)
+            {
+                UserOption userOption = (UserOption)Activator.CreateInstance(currentUserOption, counter)!;
+                _userOptions.Add(userOption);
+                counter++;
+            }
+
+            _userOptions.Add(new UserOption(counter, "Exit Application", "Exit"));
         }
 
         private static void PlayWithAnimals()
         {
             // Create a random set of animals and then interact with them
-            IAnimalFunctionality animalService = new AnimalFunctionalityService();
+            IAnimalFunctionality animalService = new AnimalFunctionalityService(new Common.Models.UserOption(0, "", ""));
             var randomAnimals = animalService.CreateRandomSetOfAnimals();
             foreach (IAnimal currentAnimal in randomAnimals)
             {
