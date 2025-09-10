@@ -20,7 +20,10 @@ namespace Testbed.Console
     public static class MainEntry
     {
         private static List<UserOption> _userOptions = new List<UserOption>();
-        private static CommonService _commonService = new CommonService();
+
+        /// <summary>
+        /// The main entry point of the application where the user decides on what they are going to do.
+        /// </summary>
         public static void Start()
         {
             System.Console.WriteLine("Welcome to the application!");
@@ -55,6 +58,9 @@ namespace Testbed.Console
             } while (!isExiting);
         }
 
+        /// <summary>
+        /// Shows all options the user can choose along with their associated numbers
+        /// </summary>
         private static void ShowOptions()
         {
             System.Console.WriteLine("What would you like to do?: ");
@@ -66,11 +72,16 @@ namespace Testbed.Console
             }
         }
 
+        /// <summary>
+        /// Does an initial population of userOptions based on the class functionalities for each option.
+        /// </summary>
         private static void PopulateUserOptions()
         {
             // grab all subClasses of UserOption
-            var userOptions = _commonService.GetAllSubClasses(typeof(UserOption), "Testbed.Common");
+            var userOptions = CommonService.GetAllSubClasses(typeof(UserOption), "Testbed.Common");
             int counter = 1;
+
+            // populates an option for each child of UserOption class
             foreach (var currentUserOption in userOptions)
             {
                 UserOption userOption = (UserOption)Activator.CreateInstance(currentUserOption, counter)!;
@@ -78,9 +89,14 @@ namespace Testbed.Console
                 counter++;
             }
 
+            // adds a final option for exiting the application
             _userOptions.Add(new UserOption(counter, "Exit Application", "Exit"));
         }
 
+        /// <summary>
+        /// Just adds some blank space on the console for readability
+        /// </summary>
+        /// <param name="numberOfLines">number of blank lines to print out</param>
         private static void AddConsolePadding(int numberOfLines)
         {
             for (int count = 0; count < numberOfLines; count++)
