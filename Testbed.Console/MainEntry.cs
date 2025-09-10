@@ -23,27 +23,21 @@ namespace Testbed.Console
             bool isExiting = false;
             do
             {
-                System.Console.WriteLine();
-                System.Console.WriteLine();
-                System.Console.WriteLine();
-                
+                // show the options and get the user's choice
+                AddConsolePadding(3);
                 ShowOptions();
                 bool wasValidInput = true;
-                string userInput = System.Console.ReadLine();
+                string? userInput = System.Console.ReadLine();
                 int userChoice = 0;
+                AddConsolePadding(2);
 
-                System.Console.WriteLine();
-                System.Console.WriteLine();
-
-                if (!Int32.TryParse(userInput, out userChoice))
-                {
-                    wasValidInput = false;
-                }
-                if (userChoice < 1 || userChoice > userOptions.Count)
+                // ensure the input was an integer and a valid choice
+                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= userOptions.Count)))
                 {
                     wasValidInput = false;
                 }
 
+                // input was valid, so perform the action requested
                 if (wasValidInput)
                 {
                     switch (userChoice)
@@ -52,9 +46,6 @@ namespace Testbed.Console
                             PlayWithAnimals();
                             break;
                         case 2:
-                            isExiting = true;
-                            break;
-                        default:
                             isExiting = true;
                             break;
                     }
@@ -87,6 +78,14 @@ namespace Testbed.Console
             foreach (IAnimal currentAnimal in randomAnimals)
             {
                 currentAnimal.Interact();
+            }
+        }
+
+        private static void AddConsolePadding(int numberOfLines)
+        {
+            for (int count = 0; count < numberOfLines; count++)
+            {
+                System.Console.WriteLine();
             }
         }
     }
