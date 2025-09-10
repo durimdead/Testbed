@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using Testbed.Common.Enums;
 using Testbed.Common.Models.Interfaces;
 
-namespace Testbed.Common.Models
+namespace Testbed.Common.Models.Animals
 {
     public abstract class Animal : IAnimal
     {
         public virtual string Name { get; set; } = string.Empty;
         public virtual string AnimalSound { get; } = string.Empty;
-        public virtual Enums.AnimalEnums.TravelType AnimalTravelType { get; }
+        public virtual AnimalEnums.TravelType AnimalTravelType { get; }
 
         private bool isJudgingYou = false;
         private string animalType;
@@ -25,7 +25,7 @@ namespace Testbed.Common.Models
         public Animal()
         {
             RandomizeJudgement();
-            animalType = this.GetType().ToString().Split(".").Last().ToLower();
+            animalType = GetType().ToString().Split(".").Last().ToLower();
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace Testbed.Common.Models
         public virtual string Greet()
         {
             string returnValue = "Say hello to ";
-            if (this.Name != string.Empty)
+            if (Name != string.Empty)
             {
-                returnValue += this.Name + " ";
+                returnValue += Name + " ";
             }
             returnValue += "the " + animalType + "!";
 
@@ -72,15 +72,15 @@ namespace Testbed.Common.Models
         {
             string returnValue = string.Empty;
 
-            if (this.AnimalSound != string.Empty)
+            if (AnimalSound != string.Empty)
             {
                 if (isJudgingYou)
                 {
-                    returnValue = "The " + animalType + " is staring into your soul. You can feel it judging you. Silently. Maliciously. Then, suddenly, it lets out a faint sound... '" + this.AnimalSound + "'";
+                    returnValue = "The " + animalType + " is staring into your soul. You can feel it judging you. Silently. Maliciously. Then, suddenly, it lets out a faint sound... '" + AnimalSound + "'";
                 }
                 else
                 {
-                    returnValue = "It says " + this.AnimalSound + "!";
+                    returnValue = "It says " + AnimalSound + "!";
                 }
             }
 
@@ -96,11 +96,11 @@ namespace Testbed.Common.Models
             string returnValue = string.Empty;
             if (isJudgingYou)
             {
-                returnValue = "The " + this.animalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
+                returnValue = "The " + animalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
             }
-            else if (this.AnimalTravelType != Enums.AnimalEnums.TravelType.None)
+            else if (AnimalTravelType != AnimalEnums.TravelType.None)
             {
-                returnValue = "They " + this.AnimalTravelType.ToString().ToLower() + " around happily!";
+                returnValue = "They " + AnimalTravelType.ToString().ToLower() + " around happily!";
             }
             return returnValue;
         }

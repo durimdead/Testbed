@@ -3,25 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Testbed.Common.Enums;
 
-namespace Testbed.Common.Models
+namespace Testbed.Common.Models.Animals
 {
-    public class Bird : Animal
+    internal class Cow : Animal
     {
-        public override string AnimalSound { get; } = "Chirp";
+        public override string AnimalSound { get; } = "Moo";
         public override string Name { get; set; }
         public override AnimalEnums.TravelType AnimalTravelType { get; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="name">The name of the Bird</param>
-        public Bird(string name)
+        /// <param name="name">The name of the Cow</param>
+        public Cow(string name)
         {
             Name = name;
-            this.AnimalTravelType = RandomizeTravelType(true, true);
+            AnimalTravelType = RandomizeTravelType(true);
         }
     }
 }
