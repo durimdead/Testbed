@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Testbed.Common.Models;
 using Testbed.Common.Models.Animals;
+using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Interfaces;
 
 namespace Testbed.Common.Services.Animals
@@ -52,6 +53,13 @@ namespace Testbed.Common.Services.Animals
         public override void Start()
         {
             System.Console.WriteLine("Now playing with the animals!");
+            System.Console.WriteLine("---------------------------------------------");
+            // Create a random set of animals and then interact with them
+            var randomAnimals = this.CreateRandomSetOfAnimals();
+            foreach (IAnimal currentAnimal in randomAnimals)
+            {
+                currentAnimal.Interact();
+            }
         }
 
         /// <summary>

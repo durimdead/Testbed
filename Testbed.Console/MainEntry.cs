@@ -81,17 +81,6 @@ namespace Testbed.Console
             _userOptions.Add(new UserOption(counter, "Exit Application", "Exit"));
         }
 
-        private static void PlayWithAnimals()
-        {
-            // Create a random set of animals and then interact with them
-            IAnimalFunctionality animalService = new AnimalFunctionalityService(new Common.Models.UserOption(0, "", ""));
-            var randomAnimals = animalService.CreateRandomSetOfAnimals();
-            foreach (IAnimal currentAnimal in randomAnimals)
-            {
-                currentAnimal.Interact();
-            }
-        }
-
         private static void AddConsolePadding(int numberOfLines)
         {
             for (int count = 0; count < numberOfLines; count++)
