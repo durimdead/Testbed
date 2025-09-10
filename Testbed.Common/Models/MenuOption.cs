@@ -22,7 +22,7 @@ namespace Testbed.Common.Models
             MenuOptionName = optionName == "" ? optionDescription : optionName;
         }
 
-        public MenuOption(IMyDelayedCaller methodToRun, int optionId, string optionDescription, string optionName = "")
+        public MenuOption(int optionId, IMyDelayedCaller methodToRun, string optionDescription, string optionName = "")
         {
             MethodToRun = methodToRun;
             MenuOptionId = optionId;

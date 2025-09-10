@@ -43,6 +43,7 @@ namespace Testbed.Console
                 if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _mainMenuOptions.Count)))
                 {
                     wasValidInput = false;
+                    System.Console.WriteLine(userInput + " is not a valid choice. Please Choose again!");
                 }
 
                 // input was valid, so perform the action requested

@@ -70,12 +70,14 @@ namespace Testbed.Common.Services.Animals
         /// </summary>
         public override void PopulateAllSubOptions()
         {
-            IMyDelayedCaller randomAnimals = new MyDelayedCaller(PlayWithRandomAnimals);
-            _menuOptions.Add(new MenuOption(randomAnimals, 1, "Play with randomized animals", "randomizedAnimals"));
-            _menuOptions.Add(new MenuOption(2, "(Exit) Stop playing with animals", "Exit"));
+            IMyDelayedCaller randomAnimals = new MyDelayedCaller<int>(PlayWithRandomAnimals, MAX_NUMBER_RANDOM_ANIMALS);
+            IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(PlayWithRandomAnimals, 1);
+            _menuOptions.Add(new MenuOption(1, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
+            _menuOptions.Add(new MenuOption(2, singleRandomAnimal, "Play with one random animal", "randomizedAnimals"));
+            _menuOptions.Add(new MenuOption(3, "(Exit) Stop playing with animals", "Exit"));
         }
 
-        public void ShowOptions()
+        public override void ShowOptions()
         {
             System.Console.WriteLine("How would you like to interact with the animals?: ");
             foreach (MenuOption currentOption in _menuOptions)
@@ -111,10 +113,10 @@ namespace Testbed.Common.Services.Animals
             return returnValue;
         }
 
-        private void PlayWithRandomAnimals()
+        private void PlayWithRandomAnimals(int numberOfAnimals = 0)
         {
             // Create a random set of animals and then interact with them
-            var randomAnimals = this.CreateRandomSetOfAnimals();
+            var randomAnimals = numberOfAnimals > 0 ? this.CreateRandomSetOfAnimals(numberOfAnimals) : this.CreateRandomSetOfAnimals();
             foreach (IAnimal currentAnimal in randomAnimals)
             {
                 currentAnimal.Interact();
