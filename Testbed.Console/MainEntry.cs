@@ -53,6 +53,7 @@ namespace Testbed.Console
                     {
                         isExiting = true;
                     }
+                    // execute the action for the user choice
                     _mainMenuOptions.Single(x => x.MainMenuOptionId == userChoice).Start();
                 }
             } while (!isExiting);
