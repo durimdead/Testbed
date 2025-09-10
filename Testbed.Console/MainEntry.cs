@@ -19,7 +19,7 @@ namespace Testbed.Console
     /// </summary>
     public static class MainEntry
     {
-        private static List<UserOption> _userOptions = new List<UserOption>();
+        private static List<MainMenuOption> _mainMenuOptions = new List<MainMenuOption>();
 
         /// <summary>
         /// The main entry point of the application where the user decides on what they are going to do.
@@ -27,7 +27,7 @@ namespace Testbed.Console
         public static void Start()
         {
             System.Console.WriteLine("Welcome to the application!");
-            PopulateUserOptions();
+            PopulateMainMenuOptions();
             bool isExiting = false;
             do
             {
@@ -40,7 +40,7 @@ namespace Testbed.Console
                 AddConsolePadding(2);
 
                 // ensure the input was an integer and a valid choice
-                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _userOptions.Count)))
+                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _mainMenuOptions.Count)))
                 {
                     wasValidInput = false;
                 }
@@ -49,11 +49,11 @@ namespace Testbed.Console
                 if (wasValidInput)
                 {
                     // if the last option was chosen, the user is exiting the application
-                    if (userChoice == _userOptions.Count)
+                    if (userChoice == _mainMenuOptions.Count)
                     {
                         isExiting = true;
                     }
-                    _userOptions.Single(x => x.UserOptionId == userChoice).Start();
+                    _mainMenuOptions.Single(x => x.MainMenuOptionId == userChoice).Start();
                 }
             } while (!isExiting);
         }
@@ -65,32 +65,32 @@ namespace Testbed.Console
         {
             System.Console.WriteLine("What would you like to do?: ");
             int currentOptionNumber = 1;
-            foreach (UserOption currentOption in _userOptions)
+            foreach (MainMenuOption currentOption in _mainMenuOptions)
             {
-                System.Console.WriteLine(currentOption.UserOptionId.ToString() + ") " + currentOption.UserOptionDescription);
+                System.Console.WriteLine(currentOption.MainMenuOptionId.ToString() + ") " + currentOption.MainMenuOptionDescription);
                 currentOptionNumber++;
             }
         }
 
         /// <summary>
-        /// Does an initial population of userOptions based on the class functionalities for each option.
+        /// Does an initial population of MainMenuOptions based on the class functionalities for each option.
         /// </summary>
-        private static void PopulateUserOptions()
+        private static void PopulateMainMenuOptions()
         {
-            // grab all subClasses of UserOption
-            var userOptions = CommonService.GetAllSubClasses(typeof(UserOption), "Testbed.Common");
+            // grab all subClasses of MainMenuOption
+            var mainMenuOptions = CommonService.GetAllSubClasses(typeof(MainMenuOption), "Testbed.Common");
             int counter = 1;
 
-            // populates an option for each child of UserOption class
-            foreach (var currentUserOption in userOptions)
+            // populates an option for each child of MainMenuOption class
+            foreach (var currentMenuOption in mainMenuOptions)
             {
-                UserOption userOption = (UserOption)Activator.CreateInstance(currentUserOption, counter)!;
-                _userOptions.Add(userOption);
+                MainMenuOption mainMenuOption = (MainMenuOption)Activator.CreateInstance(currentMenuOption, counter)!;
+                _mainMenuOptions.Add(mainMenuOption);
                 counter++;
             }
 
             // adds a final option for exiting the application
-            _userOptions.Add(new UserOption(counter, "Exit Application", "Exit"));
+            _mainMenuOptions.Add(new MainMenuOption(counter, "Exit Application", "Exit"));
         }
 
         /// <summary>

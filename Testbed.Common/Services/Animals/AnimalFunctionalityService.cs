@@ -12,15 +12,15 @@ using Testbed.Common.Services.Interfaces;
 
 namespace Testbed.Common.Services.Animals
 {
-    public class AnimalFunctionalityService: UserOption, IAnimalFunctionality
+    public class AnimalFunctionalityService: MainMenuOption, IAnimalFunctionality
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
         private const string USER_OPTION_DESCRIPTION = "Play with Animals";
 
-        public AnimalFunctionalityService(int userOptionId) : base(userOptionId, USER_OPTION_DESCRIPTION, string.Empty)
+        public AnimalFunctionalityService(int mainMenuOptionId) : base(mainMenuOptionId, USER_OPTION_DESCRIPTION, string.Empty)
         {
         }
-        public AnimalFunctionalityService(UserOption userOption) : base(userOption.UserOptionId, userOption.UserOptionDescription, userOption.UserOptionName)
+        public AnimalFunctionalityService(MainMenuOption mainMenuOption) : base(mainMenuOption.MainMenuOptionId, mainMenuOption.MainMenuOptionDescription, mainMenuOption.MainMenuOptionName)
         {
         }
 
@@ -37,6 +37,7 @@ namespace Testbed.Common.Services.Animals
             // grab all subClasses of Animal
             var animalTypes = CommonService.GetAllSubClasses(typeof(Animal), "Testbed.Common");
 
+            // create the set of random animals
             for (int counter = 0; counter < numberOfAnimals; counter++)
             {
                 // generate a random name ~80% of the time
