@@ -13,7 +13,8 @@ namespace Testbed.Common.Services.Interfaces
         /// <summary>
         /// Creates a random set of animals
         /// </summary>
+        /// <param name="maxNumberOfAnimals">The maximum number of animals to create.</param>
         /// <returns>A list of Animal objects containing at least 1 item</returns>
-        public List<Animal> CreateRandomSetOfAnimals();
+        public List<Animal> CreateRandomSetOfAnimals(int maxNumberOfAnimals);
     }
 }

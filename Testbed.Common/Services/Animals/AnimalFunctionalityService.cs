@@ -15,7 +15,7 @@ namespace Testbed.Common.Services.Animals
     public class AnimalFunctionalityService: UserOption, IAnimalFunctionality
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
-        public const string USER_OPTION_DESCRIPTION = "Play with Animals";
+        private const string USER_OPTION_DESCRIPTION = "Play with Animals";
 
         public AnimalFunctionalityService(int userOptionId) : base(userOptionId, USER_OPTION_DESCRIPTION, string.Empty)
         {
@@ -27,12 +27,13 @@ namespace Testbed.Common.Services.Animals
         /// <summary>
         /// Creates a random set of animals
         /// </summary>
+        /// <param name="maxNumberOfAnimals">The maximum number of animals to create. Default vlaue is a private class constant.</param>
         /// <returns>A list of Animal objects containing at least 1 item</returns>
-        public List<Animal> CreateRandomSetOfAnimals()
+        public List<Animal> CreateRandomSetOfAnimals(int maxNumberOfAnimals = MAX_NUMBER_RANDOM_ANIMALS)
         {
             List<Animal> returnValue = new List<Animal>();
             // create at least 1 animal
-            int numberOfAnimals = RandomNumberGenerator.GetInt32(MAX_NUMBER_RANDOM_ANIMALS) + 1;
+            int numberOfAnimals = RandomNumberGenerator.GetInt32(maxNumberOfAnimals) + 1;
             // grab all subClasses of Animal
             var animalTypes = CommonService.GetAllSubClasses(typeof(Animal), "Testbed.Common");
 
