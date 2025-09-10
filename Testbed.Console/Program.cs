@@ -7,6 +7,7 @@ using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Animals;
 using Testbed.Common.Services.Interfaces;
+using Testbed.Console;
 using static Testbed.Common.Enums.AnimalEnums;
 internal class Program
 {
@@ -27,12 +28,6 @@ internal class Program
     
     private static void Main(string[] args)
     {
-        // Create a random set of animals and then interact with them
-        IAnimalFunctionality animalService = new AnimalFunctionalityService();
-        var randomAnimals = animalService.CreateRandomSetOfAnimals();
-        foreach (IAnimal currentAnimal in randomAnimals)
-        {
-            currentAnimal.Interact();
-        }
+        MainEntry.Start();
     }
 }
