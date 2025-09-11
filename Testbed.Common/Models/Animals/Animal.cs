@@ -94,13 +94,15 @@ namespace Testbed.Common.Models.Animals
         public virtual string Travel()
         {
             string returnValue = string.Empty;
+            string travelAction = AnimalTravelType.ToString().ToLower();
             if (IsJudgingYou)
             {
-                returnValue = "The " + AnimalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
+                returnValue = "The " + AnimalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster." + 
+                    (AnimalTravelType != AnimalEnums.TravelType.None ? " They " + travelAction + " away slowly - glancing back intermittently." : "");
             }
             else if (AnimalTravelType != AnimalEnums.TravelType.None)
             {
-                returnValue = "They " + AnimalTravelType.ToString().ToLower() + " around happily!";
+                returnValue = "They " + travelAction + " around happily!";
             }
             return returnValue;
         }

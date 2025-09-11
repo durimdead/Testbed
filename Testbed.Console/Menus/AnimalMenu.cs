@@ -82,14 +82,23 @@ namespace Testbed.Console.Menus
                 IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(_animalFunctionalityService.PlayWithRandomAnimals, 1);
                 IMyDelayedCaller interactWithCurrentAnimals = new MyDelayedCaller(_animalFunctionalityService.InteractWithCurrentAnimals);
                 IMyDelayedCaller showAnimalStats = new MyDelayedCaller(_animalFunctionalityService.OutputAnimalStatistics);
-                IMyDelayedCaller sortAnimalsByName = new MyDelayedCaller<AnimalSortType, SortOrder>(_animalFunctionalityService.PerformSorting, AnimalSortType.AnimalSortByName, SortOrder.Ascending);
+                List<MenuOption> animalSortingAlgorithms = new List<MenuOption>();
 
                 int counter = 1;
                 _menuOptions.Add(new MenuOption(counter++, interactWithCurrentAnimals, "Interact with the current set of animals", "showAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, showAnimalStats, "Show animal statistics", "animalStats"));
                 _menuOptions.Add(new MenuOption(counter++, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, singleRandomAnimal, "Play with one random animal", "singleRandomAnimal"));
-                _menuOptions.Add(new MenuOption(counter++, sortAnimalsByName, "Sort the animals (By Name)", "animalSortByName"));
+
+                // add in all the sorting capabilities
+                foreach (var currentSortType in Enum.GetValues(typeof(AnimalSortType)).Cast<AnimalSortType>().ToList())
+                {
+                    // get only the sorting information (i.e. "ByName") from the enum, not the "AnimalSort" part at the beginning of each of them
+                    string currentReadableSortType = CommonHelper.ConvertVariableNameToReadableString(currentSortType.ToString().Replace("AnimalSort", string.Empty));
+                    IMyDelayedCaller currentDelayedMethod = new MyDelayedCaller<AnimalSortType, SortOrder>(_animalFunctionalityService.PerformSorting, currentSortType, SortOrder.Ascending);
+                    MenuOption currentMenuOption = new MenuOption(counter++, currentDelayedMethod, "Sort the animals (" + currentReadableSortType + ")", currentSortType.ToString());
+                    _menuOptions.Add(currentMenuOption);
+                }
                 _menuOptions.Add(new MenuOption(counter++, "(Exit) Stop playing with animals", "Exit"));
             }
         }

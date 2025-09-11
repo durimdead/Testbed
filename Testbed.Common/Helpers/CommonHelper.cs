@@ -52,5 +52,37 @@ namespace Testbed.Common.Helpers
             int randomNameIndex = RandomNumberGenerator.GetInt32(1000);
             return listOfNames[randomNameIndex];
         }
+
+        /// <summary>
+        /// Converts a Variable name to a sentence
+        /// </summary>
+        /// <param name="variableToConvert">the string to convert to a sentence</param>
+        /// <param name="preserveAcronyms">true if you want multiple upper case letters in a row to stay together, otherwise false (default false)</param>
+        /// <returns>the <paramref name="variableToConvert"/> as a sentence with spaces before each upper case letter</returns>
+        public static string ConvertVariableNameToReadableString(string variableToConvert, bool preserveAcronyms = false)
+        {
+            string returnValue = string.Empty;
+            if (!string.IsNullOrWhiteSpace(variableToConvert))
+            {
+                // add the first character and ensure it is upper case
+                returnValue += variableToConvert[0];
+                for (int index = 1; index < variableToConvert.Length; index++)
+                {
+                    if (char.IsUpper(variableToConvert[index]))
+                    {
+                        if (
+                            (variableToConvert[index - 1] != ' ' && !char.IsUpper(variableToConvert[index - 1]))
+                            || (preserveAcronyms && char.IsUpper(variableToConvert[index - 1])
+                                && (index < variableToConvert.Length - 1 && !char.IsUpper(variableToConvert[index + 1])))
+                            )
+                        {
+                            returnValue += " ";
+                        }
+                    }
+                    returnValue += variableToConvert[index];
+                }
+            }
+            return returnValue;
+        }
     }
 }

@@ -11,16 +11,16 @@ namespace Testbed.Common.Enums
         public enum TravelType
         {
             None,
-            Walk, 
             Fly,
             Swim,
+            Walk,
         }
 
         public enum AnimalSortType
         {
             //AnimalSortByReverseCurrentOrder,
             AnimalSortByName,
-            //AnimalSortByTravelType,
+            AnimalSortByTravelType,
             //AnimalSortByJudgemental,
             //AnimalSortBySound,
             //AnimalSortByAnimalType
