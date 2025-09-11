@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Testbed.Common.Models.Animals;
+using static Testbed.Common.Enums.AnimalEnums;
+using static Testbed.Common.Enums.CommonEnums;
 
 namespace Testbed.Common.Services.Interfaces
 {
@@ -38,5 +40,13 @@ namespace Testbed.Common.Services.Interfaces
         /// </summary>
         /// <returns>true if there is are any animals in the list, otherwise false.</returns>
         public bool HasAnimalsToPlayWith();
+
+        /// <summary>
+        /// Performs a sorting algorithm depending on the <paramref name="sortType"/> and <paramref name="sortOrder"/>(Ascending by default) for
+        /// the current list of animals
+        /// </summary>
+        /// <param name="sortType">enum passed in to indicate what we are sorting on</param>
+        /// <param name="sortOrder">either Ascending or Descending (Ascending by default)</param>
+        public void PerformSorting(AnimalSortType sortType, SortOrder sortOrder = SortOrder.Ascending);
     }
 }

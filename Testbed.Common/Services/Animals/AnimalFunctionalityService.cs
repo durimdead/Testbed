@@ -11,7 +11,9 @@ using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Services.MethodCallers;
+using Testbed.Common.Sorting.AnimalSort.Interfaces;
 using static Testbed.Common.Enums.AnimalEnums;
+using static Testbed.Common.Enums.CommonEnums;
 
 namespace Testbed.Common.Services.Animals
 {
@@ -19,6 +21,15 @@ namespace Testbed.Common.Services.Animals
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
         private List<Animal> _animals = new List<Animal>();
+        private Dictionary<AnimalSortType, IAnimalSort> _animalSortingAlgorithms;
+
+        /// <summary>
+        /// set up the sorting algorithms on initialization
+        /// </summary>
+        public AnimalFunctionalityService()
+        {
+            _animalSortingAlgorithms = InitializeAnimalSortingAlgorithms();
+        }
 
         /// <summary>
         /// Creates a random set of animals
@@ -119,6 +130,73 @@ namespace Testbed.Common.Services.Animals
             if (!returnValue)
             {
                 System.Console.WriteLine("Sorry, there aren't any animals to play with right now :(");
+            }
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Performs a sorting algorithm depending on the <paramref name="sortType"/> and <paramref name="sortOrder"/>(Ascending by default) for
+        /// the current list of animals
+        /// </summary>
+        /// <param name="sortType">enum passed in to indicate what we are sorting on</param>
+        /// <param name="sortOrder">either Ascending or Descending (Ascending by default)</param>
+        public void PerformSorting(AnimalSortType sortType, SortOrder sortOrder = SortOrder.Ascending)
+        {
+            try
+            {
+                // ensure that the sorting type we're attempting to do exists in the possible sorting algorithms
+                if (!_animalSortingAlgorithms.TryGetValue(sortType, out var algorithm))
+                {
+                    throw new NotImplementedException("The sort type of " + sortType.ToString() + " has not been implemented yet.");
+                }
+                // perform sort on animals
+                _animals = _animalSortingAlgorithms[sortType].Sort(_animals, sortOrder);
+            }
+            catch (Exception ex)
+            {
+                ConsoleHelper.OutputError(ex.Message.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Initializes the ability to utilize the sorting algorithms based on the IAnimalSort interface and what classes have implemented it
+        /// </summary>
+        /// <returns>A Dictionary with the key/value pairs for what sorting algorithms are available to be invoked.</returns>
+        private Dictionary<AnimalSortType, IAnimalSort> InitializeAnimalSortingAlgorithms()
+        {
+            Dictionary<AnimalSortType, IAnimalSort> returnValue = new Dictionary<AnimalSortType, IAnimalSort>();
+            try
+            {
+                Type interfaceType = typeof(IAnimalSort);
+
+                // Get all types that implement this interface that are classes, but not abstract
+                IEnumerable<Type> implementingTypes = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
+
+                // populate with all the different types of sorting algorithms available
+                foreach (Type currentType in implementingTypes)
+                {
+                    // add an instance of the current sorting class to the dictionary
+                    string currentTypeClassName = currentType.ToString().Split(".").Last();
+                    try
+                    {
+                        AnimalSortType currentSortType = (AnimalSortType)Enum.Parse(typeof(AnimalSortType), currentTypeClassName);
+                        returnValue[currentSortType] = (IAnimalSort)Activator.CreateInstance(currentType)!;
+                    }
+                    // If we get an error here, it is most likely because the sort type attempting to be added doesn't exist yet.
+                    // No need to stop the others from getting added
+                    catch(Exception ex)
+                    {
+                        ConsoleHelper.OutputError(ex.Message);
+                    }
+                }
+            }
+            // if we hit an error, output the error and clear the return value to avoid potentially returning a bad set of data
+            catch (Exception ex)
+            {
+                ConsoleHelper.OutputError(ex.Message);
+                returnValue.Clear();
             }
             return returnValue;
         }

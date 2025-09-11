@@ -15,5 +15,15 @@ namespace Testbed.Common.Enums
             Fly,
             Swim,
         }
+
+        public enum AnimalSortType
+        {
+            //AnimalSortByReverseCurrentOrder,
+            AnimalSortByName,
+            //AnimalSortByTravelType,
+            //AnimalSortByJudgemental,
+            //AnimalSortBySound,
+            //AnimalSortByAnimalType
+        }
     }
 }

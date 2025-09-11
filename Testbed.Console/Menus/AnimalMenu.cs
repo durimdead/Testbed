@@ -12,6 +12,7 @@ using Testbed.Common.Services.Animals;
 using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Services.MethodCallers;
 using static Testbed.Common.Enums.AnimalEnums;
+using static Testbed.Common.Enums.CommonEnums;
 
 namespace Testbed.Console.Menus
 {
@@ -81,12 +82,14 @@ namespace Testbed.Console.Menus
                 IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(_animalFunctionalityService.PlayWithRandomAnimals, 1);
                 IMyDelayedCaller interactWithCurrentAnimals = new MyDelayedCaller(_animalFunctionalityService.InteractWithCurrentAnimals);
                 IMyDelayedCaller showAnimalStats = new MyDelayedCaller(_animalFunctionalityService.OutputAnimalStatistics);
+                IMyDelayedCaller sortAnimalsByName = new MyDelayedCaller<AnimalSortType, SortOrder>(_animalFunctionalityService.PerformSorting, AnimalSortType.AnimalSortByName, SortOrder.Ascending);
 
                 int counter = 1;
                 _menuOptions.Add(new MenuOption(counter++, interactWithCurrentAnimals, "Interact with the current set of animals", "showAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, showAnimalStats, "Show animal statistics", "animalStats"));
                 _menuOptions.Add(new MenuOption(counter++, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, singleRandomAnimal, "Play with one random animal", "singleRandomAnimal"));
+                _menuOptions.Add(new MenuOption(counter++, sortAnimalsByName, "Sort the animals (By Name)", "animalSortByName"));
                 _menuOptions.Add(new MenuOption(counter++, "(Exit) Stop playing with animals", "Exit"));
             }
         }

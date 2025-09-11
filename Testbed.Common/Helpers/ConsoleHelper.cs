@@ -19,5 +19,30 @@ namespace Testbed.Common.Helpers
                 Console.WriteLine();
             }
         }
+
+        public static void AddDottedLine(int numberOfCharacters = 40)
+        {
+            string dottedLine = string.Empty;
+            for (int count = 0; count < numberOfCharacters; count++)
+            {
+                dottedLine += "-";
+            }
+            Console.WriteLine(dottedLine);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        public static void OutputError(string errorMessage)
+        {
+            ConsoleHelper.AddConsolePadding(1);
+            ConsoleHelper.AddDottedLine();
+            System.Console.WriteLine("-------------------- ERROR -------------------");
+            ConsoleHelper.AddDottedLine();
+            System.Console.WriteLine(errorMessage);
+            ConsoleHelper.AddDottedLine();
+            ConsoleHelper.AddConsolePadding(1);
+        }
     }
 }

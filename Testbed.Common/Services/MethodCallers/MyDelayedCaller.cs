@@ -70,7 +70,7 @@ namespace Testbed.Common.Services.MethodCallers
     /// </summary>
     /// <typeparam name="T1">Type of first param</typeparam>
     /// <typeparam name="T2">Type of second param</typeparam>
-    class MyDelayedCaller<T1, T2> : IMyDelayedCaller
+    public class MyDelayedCaller<T1, T2> : IMyDelayedCaller
     {
         private Action<T1, T2> _target;
         public T1 _param1;
