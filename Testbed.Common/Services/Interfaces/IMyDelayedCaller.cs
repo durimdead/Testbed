@@ -8,6 +8,9 @@ namespace Testbed.Common.Services.Interfaces
 {
     public interface IMyDelayedCaller
     {
+        /// <summary>
+        /// Invokes the stored method
+        /// </summary>
         public void Invoke();
     }
 }

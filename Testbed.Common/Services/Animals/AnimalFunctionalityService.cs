@@ -77,11 +77,11 @@ namespace Testbed.Common.Services.Animals
             {
                 IMyDelayedCaller randomAnimals = new MyDelayedCaller<int>(PlayWithRandomAnimals, MAX_NUMBER_RANDOM_ANIMALS);
                 IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(PlayWithRandomAnimals, 1);
-                IMyDelayedCaller showAnimals = new MyDelayedCaller(OutputCurrentAnimals);
+                IMyDelayedCaller interactWithCurrentAnimals = new MyDelayedCaller(InteractWithCurrentAnimals);
                 IMyDelayedCaller showAnimalStats = new MyDelayedCaller(OutputAnimalStatistics);
                 
                 int counter = 1;
-                _menuOptions.Add(new MenuOption(counter++, showAnimals, "Show the current list of animals", "showAnimals"));
+                _menuOptions.Add(new MenuOption(counter++, interactWithCurrentAnimals, "Interact with the current set of animals", "showAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, showAnimalStats, "Show animal statistics", "animalStats"));
                 _menuOptions.Add(new MenuOption(counter++, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, singleRandomAnimal, "Play with one random animal", "singleRandomAnimal"));
@@ -89,6 +89,9 @@ namespace Testbed.Common.Services.Animals
             }
         }
 
+        /// <summary>
+        /// Outputs all menu options the user has. If there are currently no menu options, it will fill populate them with the default ones
+        /// </summary>
         public override void ShowOptions()
         {
             if (_menuOptions.Count == 0)
@@ -129,14 +132,21 @@ namespace Testbed.Common.Services.Animals
             return returnValue;
         }
 
+        /// <summary>
+        /// This will create a set of random animals based on the input, and then "interact" with the created animals
+        /// </summary>
+        /// <param name="numberOfAnimals">the max number of random animals to create. 0 uses the default value in the class</param>
         private void PlayWithRandomAnimals(int numberOfAnimals = 0)
         {
             // Create a new, random set of animals and then interact with them
             _animals = numberOfAnimals > 0 ? this.CreateRandomSetOfAnimals(numberOfAnimals) : this.CreateRandomSetOfAnimals();
-            OutputCurrentAnimals();
+            InteractWithCurrentAnimals();
         }
 
-        private void OutputCurrentAnimals()
+        /// <summary>
+        /// Interacts with the currently created animals
+        /// </summary>
+        private void InteractWithCurrentAnimals()
         {
             if (HasAnimalsToPlayWith())
             {
@@ -147,6 +157,9 @@ namespace Testbed.Common.Services.Animals
             }
         }
 
+        /// <summary>
+        /// Outputs all of the stats for the current set of animals.
+        /// </summary>
         private void OutputAnimalStatistics()
         {
             // generate structures to store the animal information inside of.
@@ -166,6 +179,7 @@ namespace Testbed.Common.Services.Animals
                 animalTypes[currentAnimal.AnimalType] = ++countOfAnimalType;
             }
 
+            // output the stats for the animals.
             System.Console.WriteLine("Number of animals available: " + numberOfAnimals.ToString());
             System.Console.WriteLine("Number of judgemental Animals: " + numberOfJudgementalAnimals.ToString());
             System.Console.WriteLine("Animal travel types: ");
@@ -180,6 +194,7 @@ namespace Testbed.Common.Services.Animals
             }
         }
 
+        // determines if there are any animals to play with. If there are not, it will output that there are no animals to play with.
         private bool HasAnimalsToPlayWith()
         {
             bool returnValue = _animals.Count > 0;

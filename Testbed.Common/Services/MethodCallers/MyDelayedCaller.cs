@@ -27,6 +27,9 @@ namespace Testbed.Common.Services.MethodCallers
             _target = target;
         }
 
+        /// <summary>
+        /// Invokes the stored method
+        /// </summary>
         public void Invoke()
         {
             _target();
@@ -53,6 +56,9 @@ namespace Testbed.Common.Services.MethodCallers
             _param = parameter;
         }
 
+        /// <summary>
+        /// Invokes the stored method
+        /// </summary>
         public void Invoke()
         {
             _target(_param);
