@@ -17,9 +17,9 @@ namespace Testbed.Common.Models.Interfaces
         public void Start();
 
         /// <summary>
-        /// Populates a set of option for the user to choose from.
+        /// Populates a set of options for the user to choose from.
         /// </summary>
-        public void PopulateAllSubOptions();
+        public void PopulateAllMenuOptions();
 
         /// <summary>
         /// Shows all of the populated options

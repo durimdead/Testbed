@@ -18,14 +18,14 @@ namespace Testbed.Common.Models
             MainMenuOptionId = mainMenuOptionId;
             MainMenuOptionDescription = description;
             MainMenuOptionName = name == string.Empty ? description : name;
-            PopulateAllSubOptions();
+            PopulateAllMenuOptions();
         }
 
         /// <summary>
         /// Always run in the constructor to ensure that all sub-classes will always have this method running to avoid having
         /// to worry about where to put this setup. It will ensure that a list of sub-options for interactions will be created.
         /// </summary>
-        public virtual void PopulateAllSubOptions()
+        public virtual void PopulateAllMenuOptions()
         {
             // nothing to do here by default
         }

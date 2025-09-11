@@ -19,6 +19,7 @@ namespace Testbed.Common.Services.Animals
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
         private const string USER_OPTION_DESCRIPTION = "Play with Animals";
         private List<MenuOption> _menuOptions = new List<MenuOption>();
+        private List<Animal> _animals = new List<Animal>();
 
         public AnimalFunctionalityService(int mainMenuOptionId) : base(mainMenuOptionId, USER_OPTION_DESCRIPTION, string.Empty)
         {
@@ -68,17 +69,28 @@ namespace Testbed.Common.Services.Animals
         /// <summary>
         /// Populates a set of option for the user to choose from.
         /// </summary>
-        public override void PopulateAllSubOptions()
+        public override void PopulateAllMenuOptions()
         {
-            IMyDelayedCaller randomAnimals = new MyDelayedCaller<int>(PlayWithRandomAnimals, MAX_NUMBER_RANDOM_ANIMALS);
-            IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(PlayWithRandomAnimals, 1);
-            _menuOptions.Add(new MenuOption(1, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
-            _menuOptions.Add(new MenuOption(2, singleRandomAnimal, "Play with one random animal", "randomizedAnimals"));
-            _menuOptions.Add(new MenuOption(3, "(Exit) Stop playing with animals", "Exit"));
+            // only populate the menu options if there isn't anything in there already.
+            if (_menuOptions.Count == 0)
+            {
+                IMyDelayedCaller randomAnimals = new MyDelayedCaller<int>(PlayWithRandomAnimals, MAX_NUMBER_RANDOM_ANIMALS);
+                IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(PlayWithRandomAnimals, 1);
+                IMyDelayedCaller showAnimals = new MyDelayedCaller(OutputCurrentAnimals);
+                int counter = 1;
+                _menuOptions.Add(new MenuOption(counter++, showAnimals, "Show the current list of animals", "showAnimals"));
+                _menuOptions.Add(new MenuOption(counter++, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
+                _menuOptions.Add(new MenuOption(counter++, singleRandomAnimal, "Play with one random animal", "singleRandomAnimal"));
+                _menuOptions.Add(new MenuOption(counter++, "(Exit) Stop playing with animals", "Exit"));
+            }
         }
 
         public override void ShowOptions()
         {
+            if (_menuOptions.Count == 0)
+            {
+                PopulateAllMenuOptions();
+            }
             System.Console.WriteLine("How would you like to interact with the animals?: ");
             foreach (MenuOption currentOption in _menuOptions)
             {
@@ -115,9 +127,18 @@ namespace Testbed.Common.Services.Animals
 
         private void PlayWithRandomAnimals(int numberOfAnimals = 0)
         {
-            // Create a random set of animals and then interact with them
-            var randomAnimals = numberOfAnimals > 0 ? this.CreateRandomSetOfAnimals(numberOfAnimals) : this.CreateRandomSetOfAnimals();
-            foreach (IAnimal currentAnimal in randomAnimals)
+            // Create a new, random set of animals and then interact with them
+            _animals = numberOfAnimals > 0 ? this.CreateRandomSetOfAnimals(numberOfAnimals) : this.CreateRandomSetOfAnimals();
+            OutputCurrentAnimals();
+        }
+
+        private void OutputCurrentAnimals()
+        {
+            if (_animals.Count == 0)
+            {
+                System.Console.WriteLine("Sorry, there aren't any animals to play with right now :(");
+            }
+            foreach (IAnimal currentAnimal in _animals)
             {
                 currentAnimal.Interact();
             }
