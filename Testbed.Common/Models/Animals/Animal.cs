@@ -123,7 +123,7 @@ namespace Testbed.Common.Models.Animals
         /// <param name="canSwim">If true, there is a chance that the animal will be swimming</param>
         /// <param name="canFly">If true, there is a chance that the animal will be flying</param>
         /// <returns>AnimalEnums.TravelType</returns>
-        internal AnimalEnums.TravelType RandomizeTravelType(bool canSwim = false, bool canFly = false)
+        internal AnimalEnums.TravelType RandomizeTravelType(bool canSwim = false, bool canFly = false, bool canWalk = true)
         {
             int randomNumberSeed = 4;
             int randomNumber = RandomNumberGenerator.GetInt32(randomNumberSeed);
@@ -131,7 +131,7 @@ namespace Testbed.Common.Models.Animals
             switch (randomNumber)
             {
                 case 1:
-                    returnValue = AnimalEnums.TravelType.Walk;
+                    returnValue = canWalk ? AnimalEnums.TravelType.Walk : AnimalEnums.TravelType.None;
                     break;
                 case 2:
                     returnValue = canSwim ? AnimalEnums.TravelType.Swim : AnimalEnums.TravelType.None;
