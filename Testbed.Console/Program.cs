@@ -7,7 +7,7 @@ using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Animals;
 using Testbed.Common.Services.Interfaces;
-using Testbed.Console;
+using Testbed.Console.Menus;
 using static Testbed.Common.Enums.AnimalEnums;
 internal class Program
 {

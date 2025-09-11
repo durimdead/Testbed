@@ -18,7 +18,6 @@ namespace Testbed.Common.Models
             MainMenuOptionId = mainMenuOptionId;
             MainMenuOptionDescription = description;
             MainMenuOptionName = name == string.Empty ? description : name;
-            PopulateAllMenuOptions();
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Models;
 using Testbed.Common.Helpers;
 
-namespace Testbed.Console
+namespace Testbed.Console.Menus
 {
     /// <summary>
     /// The name of this class sucks, but I needed something like this for the application
@@ -40,7 +40,7 @@ namespace Testbed.Console
                 ConsoleHelper.AddConsolePadding(2);
 
                 // ensure the input was an integer and a valid choice
-                if (!(Int32.TryParse(userInput, out userChoice) && (userChoice >= 1 && userChoice <= _mainMenuOptions.Count)))
+                if (!(int.TryParse(userInput, out userChoice) && userChoice >= 1 && userChoice <= _mainMenuOptions.Count))
                 {
                     wasValidInput = false;
                     System.Console.WriteLine(userInput + " is not a valid choice. Please Choose again!");
@@ -78,13 +78,13 @@ namespace Testbed.Console
         private static void PopulateMainMenuOptions()
         {
             // grab all subClasses of MainMenuOption
-            var mainMenuOptions = CommonHelper.GetAllSubClasses(typeof(MainMenuOption), "Testbed.Common");
+            var mainMenuOptions = CommonHelper.GetAllSubClasses(typeof(MainMenuOption), "Testbed.Console");
             int counter = 1;
 
             // populates an option for each child of MainMenuOption class
             foreach (var currentMenuOption in mainMenuOptions)
             {
-                MainMenuOption mainMenuOption = (MainMenuOption)Activator.CreateInstance(currentMenuOption, counter)!;
+                MainMenuOption mainMenuOption = (MainMenuOption)Activator.CreateInstance(currentMenuOption, counter, null)!;
                 _mainMenuOptions.Add(mainMenuOption);
                 counter++;
             }
