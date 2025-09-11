@@ -15,8 +15,8 @@ namespace Testbed.Common.Models.Animals
         public virtual string AnimalSound { get; } = string.Empty;
         public virtual AnimalEnums.TravelType AnimalTravelType { get; }
 
-        private bool isJudgingYou = false;
-        private string animalType;
+        public bool IsJudgingYou { get; private set; } = false;
+        public string AnimalType { get; private set; }
 
         /// <summary>
         /// Constructor - Randomize Judgement will happen here regardless of what child is created since it will also create the parent.
@@ -25,7 +25,7 @@ namespace Testbed.Common.Models.Animals
         public Animal()
         {
             RandomizeJudgement();
-            animalType = GetType().ToString().Split(".").Last().ToLower();
+            AnimalType = GetType().ToString().Split(".").Last().ToLower();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Testbed.Common.Models.Animals
             {
                 returnValue += Name + " ";
             }
-            returnValue += "the " + animalType + "!";
+            returnValue += "the " + AnimalType + "!";
 
             return returnValue;
         }
@@ -74,9 +74,9 @@ namespace Testbed.Common.Models.Animals
 
             if (AnimalSound != string.Empty)
             {
-                if (isJudgingYou)
+                if (IsJudgingYou)
                 {
-                    returnValue = "The " + animalType + " is staring into your soul. You can feel it judging you. Silently. Maliciously. Then, suddenly, it lets out a faint sound... '" + AnimalSound + "'";
+                    returnValue = "The " + AnimalType + " is staring into your soul. You can feel it judging you. Silently. Maliciously. Then, suddenly, it lets out a faint sound... '" + AnimalSound + "'";
                 }
                 else
                 {
@@ -94,9 +94,9 @@ namespace Testbed.Common.Models.Animals
         public virtual string Travel()
         {
             string returnValue = string.Empty;
-            if (isJudgingYou)
+            if (IsJudgingYou)
             {
-                returnValue = "The " + animalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
+                returnValue = "The " + AnimalType + " just sits there. They continue to judge you. Did you forget their birthday? Maybe you didn't give them their treat earlier today that they wanted so badly. Whatever it is, you are a monster.";
             }
             else if (AnimalTravelType != AnimalEnums.TravelType.None)
             {
@@ -113,7 +113,7 @@ namespace Testbed.Common.Models.Animals
             int randomNumber = RandomNumberGenerator.GetInt32(10);
             if (randomNumber == 1)
             {
-                isJudgingYou = true;
+                IsJudgingYou = true;
             }
         }
 

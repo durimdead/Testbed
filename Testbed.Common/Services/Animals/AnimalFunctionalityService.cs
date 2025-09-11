@@ -11,6 +11,7 @@ using Testbed.Common.Models.Animals;
 using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Services.MethodCallers;
+using static Testbed.Common.Enums.AnimalEnums;
 
 namespace Testbed.Common.Services.Animals
 {
@@ -77,8 +78,11 @@ namespace Testbed.Common.Services.Animals
                 IMyDelayedCaller randomAnimals = new MyDelayedCaller<int>(PlayWithRandomAnimals, MAX_NUMBER_RANDOM_ANIMALS);
                 IMyDelayedCaller singleRandomAnimal = new MyDelayedCaller<int>(PlayWithRandomAnimals, 1);
                 IMyDelayedCaller showAnimals = new MyDelayedCaller(OutputCurrentAnimals);
+                IMyDelayedCaller showAnimalStats = new MyDelayedCaller(OutputAnimalStatistics);
+                
                 int counter = 1;
                 _menuOptions.Add(new MenuOption(counter++, showAnimals, "Show the current list of animals", "showAnimals"));
+                _menuOptions.Add(new MenuOption(counter++, showAnimalStats, "Show animal statistics", "animalStats"));
                 _menuOptions.Add(new MenuOption(counter++, randomAnimals, "Play with randomized animals", "randomizedAnimals"));
                 _menuOptions.Add(new MenuOption(counter++, singleRandomAnimal, "Play with one random animal", "singleRandomAnimal"));
                 _menuOptions.Add(new MenuOption(counter++, "(Exit) Stop playing with animals", "Exit"));
@@ -134,14 +138,56 @@ namespace Testbed.Common.Services.Animals
 
         private void OutputCurrentAnimals()
         {
-            if (_animals.Count == 0)
+            if (HasAnimalsToPlayWith())
+            {
+                foreach (IAnimal currentAnimal in _animals)
+                {
+                    currentAnimal.Interact();
+                }
+            }
+        }
+
+        private void OutputAnimalStatistics()
+        {
+            // generate structures to store the animal information inside of.
+            int numberOfAnimals = 0;
+            int numberOfJudgementalAnimals = 0;
+            Dictionary<string, int> animalTypes = new Dictionary<string, int>();
+            int[] animalTravelTypeCount = new int[(int)Enum.GetValues(typeof(TravelType)).Cast<TravelType>().Count()];
+            foreach (var currentAnimal in _animals)
+            {
+                numberOfAnimals++;
+                numberOfJudgementalAnimals += currentAnimal.IsJudgingYou ? 1 : 0;
+                animalTravelTypeCount[(int)currentAnimal.AnimalTravelType]++;
+
+                // increment the count of the current animal type
+                int countOfAnimalType = 0;
+                animalTypes.TryGetValue(currentAnimal.AnimalType, out countOfAnimalType);
+                animalTypes[currentAnimal.AnimalType] = ++countOfAnimalType;
+            }
+
+            System.Console.WriteLine("Number of animals available: " + numberOfAnimals.ToString());
+            System.Console.WriteLine("Number of judgemental Animals: " + numberOfJudgementalAnimals.ToString());
+            System.Console.WriteLine("Animal travel types: ");
+            System.Console.WriteLine("\t Not doing anything: " + animalTravelTypeCount[(int)TravelType.None]);
+            System.Console.WriteLine("\t Flying: " + animalTravelTypeCount[(int)TravelType.Fly]);
+            System.Console.WriteLine("\t Swimming: " + animalTravelTypeCount[(int)TravelType.Swim]);
+            System.Console.WriteLine("\t Walking: " + animalTravelTypeCount[(int)TravelType.Walk]);
+            System.Console.WriteLine("Types of Animals: ");
+            foreach(var currentType in animalTypes)
+            {
+                System.Console.WriteLine("\t " + currentType.Key.ToString() + ": " + currentType.Value.ToString());
+            }
+        }
+
+        private bool HasAnimalsToPlayWith()
+        {
+            bool returnValue = _animals.Count > 0;
+            if (!returnValue)
             {
                 System.Console.WriteLine("Sorry, there aren't any animals to play with right now :(");
             }
-            foreach (IAnimal currentAnimal in _animals)
-            {
-                currentAnimal.Interact();
-            }
+            return returnValue;
         }
     }
 }

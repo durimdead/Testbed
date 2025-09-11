@@ -15,12 +15,5 @@ namespace Testbed.Common.Enums
             Fly,
             Swim,
         }
-
-        public enum AnimalType
-        {
-            Cat = 1,
-            Dog,
-            Bird
-        }
     }
 }
