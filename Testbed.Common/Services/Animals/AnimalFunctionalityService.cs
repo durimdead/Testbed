@@ -15,6 +15,7 @@ using Testbed.Common.Sorting.AnimalSort.Interfaces;
 using Testbed.Common.Sorting.Common.Interfaces;
 using static Testbed.Common.Enums.AnimalEnums;
 using static Testbed.Common.Enums.CommonEnums;
+using static Testbed.Common.Enums.SortingEnums;
 
 namespace Testbed.Common.Services.Animals
 {
@@ -165,7 +166,7 @@ namespace Testbed.Common.Services.Animals
         /// <returns>A Dictionary with the key/value pairs for what sorting algorithms are available to be invoked.</returns>
         private Dictionary<AnimalSortType, IItemSort<Animal>> InitializeAnimalSortingAlgorithms()
         {
-            var returnValue = MenuHelper<AnimalSortType, Animal, IAnimalSort>.InitializeSortingAlgorithms();
+            var returnValue = MenuSortOptionHelper<AnimalSortType, Animal, IAnimalSort>.InitializeSortingAlgorithms();
             return returnValue;
         }
     }

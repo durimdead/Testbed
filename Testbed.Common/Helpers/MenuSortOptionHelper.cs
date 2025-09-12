@@ -7,7 +7,13 @@ using Testbed.Common.Sorting.Common.Interfaces;
 
 namespace Testbed.Common.Helpers
 {
-    public static class MenuHelper<TEnum,TType,TSortingInterface> where TEnum : struct, IConvertible
+    /// <summary>
+    /// A class to help with management of menu options that have to do with sorting items related to the menu you are working with
+    /// </summary>
+    /// <typeparam name="TEnum">The Enum related to the Sorting Type</typeparam>
+    /// <typeparam name="TType">The base class of the Sortable objects</typeparam>
+    /// <typeparam name="TSortingInterface">The interface that implements IItemSort, which then has classes that implement that interface for the sorting algorithm.</typeparam>
+    public static class MenuSortOptionHelper<TEnum,TType,TSortingInterface> where TEnum : struct, IConvertible
     {
 
         /// <summary>

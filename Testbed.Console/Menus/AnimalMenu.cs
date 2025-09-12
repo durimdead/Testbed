@@ -13,6 +13,7 @@ using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Services.MethodCallers;
 using static Testbed.Common.Enums.AnimalEnums;
 using static Testbed.Common.Enums.CommonEnums;
+using static Testbed.Common.Enums.SortingEnums;
 
 namespace Testbed.Console.Menus
 {

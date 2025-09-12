@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Testbed.Common.Models.Animals;
 using static Testbed.Common.Enums.AnimalEnums;
 using static Testbed.Common.Enums.CommonEnums;
+using static Testbed.Common.Enums.SortingEnums;
 
 namespace Testbed.Common.Services.Interfaces
 {

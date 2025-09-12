@@ -15,15 +15,5 @@ namespace Testbed.Common.Enums
             Swim,
             Walk,
         }
-
-        public enum AnimalSortType
-        {
-            AnimalSortByReverseCurrentOrder,
-            AnimalSortByName,
-            AnimalSortByTravelType,
-            AnimalSortByJudgemental,
-            AnimalSortBySound,
-            AnimalSortByAnimalType
-        }
     }
 }
