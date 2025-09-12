@@ -18,7 +18,7 @@ namespace Testbed.Common.Enums
 
         public enum AnimalSortType
         {
-            //AnimalSortByReverseCurrentOrder,
+            AnimalSortByReverseCurrentOrder,
             AnimalSortByName,
             AnimalSortByTravelType,
             AnimalSortByJudgemental,
