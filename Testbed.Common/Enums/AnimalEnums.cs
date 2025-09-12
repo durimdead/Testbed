@@ -23,7 +23,7 @@ namespace Testbed.Common.Enums
             AnimalSortByTravelType,
             AnimalSortByJudgemental,
             AnimalSortBySound,
-            //AnimalSortByAnimalType
+            AnimalSortByAnimalType
         }
     }
 }
