@@ -12,6 +12,7 @@ using Testbed.Common.Models.Interfaces;
 using Testbed.Common.Services.Interfaces;
 using Testbed.Common.Services.MethodCallers;
 using Testbed.Common.Sorting.AnimalSort.Interfaces;
+using Testbed.Common.Sorting.Common.Interfaces;
 using static Testbed.Common.Enums.AnimalEnums;
 using static Testbed.Common.Enums.CommonEnums;
 
@@ -21,7 +22,7 @@ namespace Testbed.Common.Services.Animals
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
         private List<Animal> _animals = new List<Animal>();
-        private Dictionary<AnimalSortType, IAnimalSort> _animalSortingAlgorithms;
+        private Dictionary<AnimalSortType, IItemSort<Animal>> _animalSortingAlgorithms;
 
         /// <summary>
         /// set up the sorting algorithms on initialization
@@ -162,42 +163,9 @@ namespace Testbed.Common.Services.Animals
         /// Initializes the ability to utilize the sorting algorithms based on the IAnimalSort interface and what classes have implemented it
         /// </summary>
         /// <returns>A Dictionary with the key/value pairs for what sorting algorithms are available to be invoked.</returns>
-        private Dictionary<AnimalSortType, IAnimalSort> InitializeAnimalSortingAlgorithms()
+        private Dictionary<AnimalSortType, IItemSort<Animal>> InitializeAnimalSortingAlgorithms()
         {
-            Dictionary<AnimalSortType, IAnimalSort> returnValue = new Dictionary<AnimalSortType, IAnimalSort>();
-            try
-            {
-                Type interfaceType = typeof(IAnimalSort);
-
-                // Get all types that implement this interface that are classes, but not abstract
-                IEnumerable<Type> implementingTypes = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
-
-                // populate with all the different types of sorting algorithms available
-                foreach (Type currentType in implementingTypes)
-                {
-                    // add an instance of the current sorting class to the dictionary
-                    string currentTypeClassName = currentType.ToString().Split(".").Last();
-                    try
-                    {
-                        AnimalSortType currentSortType = (AnimalSortType)Enum.Parse(typeof(AnimalSortType), currentTypeClassName);
-                        returnValue[currentSortType] = (IAnimalSort)Activator.CreateInstance(currentType)!;
-                    }
-                    // If we get an error here, it is most likely because the sort type attempting to be added doesn't exist yet.
-                    // No need to stop the others from getting added
-                    catch(Exception ex)
-                    {
-                        ConsoleHelper.OutputError(ex.Message);
-                    }
-                }
-            }
-            // if we hit an error, output the error and clear the return value to avoid potentially returning a bad set of data
-            catch (Exception ex)
-            {
-                ConsoleHelper.OutputError(ex.Message);
-                returnValue.Clear();
-            }
+            var returnValue = MenuHelper<AnimalSortType, Animal, IAnimalSort>.InitializeSortingAlgorithms();
             return returnValue;
         }
     }
