@@ -21,7 +21,7 @@ namespace Testbed.Common.Enums
             //AnimalSortByReverseCurrentOrder,
             AnimalSortByName,
             AnimalSortByTravelType,
-            //AnimalSortByJudgemental,
+            AnimalSortByJudgemental,
             //AnimalSortBySound,
             //AnimalSortByAnimalType
         }
