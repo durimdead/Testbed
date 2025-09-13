@@ -15,7 +15,6 @@ namespace Testbed.Common.Helpers
     /// <typeparam name="TSortingInterface">The interface that implements IItemSort, which then has classes that implement that interface for the sorting algorithm.</typeparam>
     public static class MenuSortOptionHelper<TEnum,TType,TSortingInterface> where TEnum : struct, IConvertible
     {
-
         /// <summary>
         /// gets a set of stored methods to perform a given type of sorting algorithm
         /// </summary>
@@ -28,8 +27,8 @@ namespace Testbed.Common.Helpers
                 Type interfaceType = typeof(TSortingInterface);
                 // Get all types that implement this interface that are classes, but not abstract
                 IEnumerable<Type> implementingTypes = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract);
+                    .SelectMany(currentAssembly => currentAssembly.GetTypes())
+                    .Where(currentType => interfaceType.IsAssignableFrom(currentType) && currentType.IsClass && !currentType.IsAbstract);
 
                 // populate with all the different types of sorting algorithms available
                 foreach (Type currentType in implementingTypes)

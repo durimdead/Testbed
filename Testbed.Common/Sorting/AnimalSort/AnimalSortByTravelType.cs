@@ -10,7 +10,7 @@ using static Testbed.Common.Enums.CommonEnums;
 
 namespace Testbed.Common.Sorting.AnimalSort
 {
-    internal class AnimalSortByTravelType : IAnimalSort
+    public class AnimalSortByTravelType : IAnimalSort
     {
         /// <summary>
         /// Takes a list of animals and returns a sorted list of animals

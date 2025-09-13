@@ -19,7 +19,7 @@ using static Testbed.Common.Enums.SortingEnums;
 
 namespace Testbed.Common.Services.Animals
 {
-    public class AnimalFunctionalityService: IAnimalFunctionality
+    public class AnimalFunctionalityService : IAnimalFunctionality
     {
         private const int MAX_NUMBER_RANDOM_ANIMALS = 10;
         private List<Animal> _animals = new List<Animal>();
@@ -116,7 +116,7 @@ namespace Testbed.Common.Services.Animals
             System.Console.WriteLine("\t Swimming: " + animalTravelTypeCount[(int)TravelType.Swim]);
             System.Console.WriteLine("\t Walking: " + animalTravelTypeCount[(int)TravelType.Walk]);
             System.Console.WriteLine("Types of Animals: ");
-            foreach(var currentType in animalTypes)
+            foreach (var currentType in animalTypes)
             {
                 System.Console.WriteLine("\t " + currentType.Key.ToString() + ": " + currentType.Value.ToString());
             }
