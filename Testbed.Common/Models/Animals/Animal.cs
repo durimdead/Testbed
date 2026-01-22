@@ -14,7 +14,7 @@ namespace Testbed.Common.Models.Animals
         public virtual string Name { get; set; } = string.Empty;
         public virtual string AnimalSound { get; } = string.Empty;
         public abstract int NumberOfLimbs { get; }
-        public abstract AnimalEnums.LimbType AnimalLimbType { get; }
+        public abstract AnimalEnums.LimbType AnimalLimbType { get; private protected set; }
         public virtual AnimalEnums.TravelType AnimalTravelType { get; }
 
         public bool IsJudgingYou { get; private set; } = false;
@@ -104,7 +104,7 @@ namespace Testbed.Common.Models.Animals
             }
             else if (AnimalTravelType != AnimalEnums.TravelType.None)
             {
-                returnValue = "They " + travelAction + " around happily with their " + this.NumberOfLimbs + " " + this.AnimalLimbType + "!";
+                returnValue = "They " + travelAction + " around happily with their " + this.NumberOfLimbs + " " + this.AnimalLimbType.ToString().ToLower() + "!";
             }
             return returnValue;
         }

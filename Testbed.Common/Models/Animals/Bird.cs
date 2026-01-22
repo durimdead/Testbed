@@ -13,7 +13,7 @@ namespace Testbed.Common.Models.Animals
         public override string AnimalSound { get; } = "Chirp";
         public override string Name { get; set; }
         public override int NumberOfLimbs { get;  } = 2;
-        public override AnimalEnums.LimbType AnimalLimbType { get; } = AnimalEnums.LimbType.Wings;
+        public override AnimalEnums.LimbType AnimalLimbType { get; private protected set; } = AnimalEnums.LimbType.Wings;
         public override AnimalEnums.TravelType AnimalTravelType { get; }
 
         /// <summary>
@@ -23,7 +23,11 @@ namespace Testbed.Common.Models.Animals
         public Bird(string name)
         {
             Name = name;
-            AnimalTravelType = RandomizeTravelType(false, true, false);
+            AnimalTravelType = RandomizeTravelType(true, true);
+            if (AnimalTravelType != AnimalEnums.TravelType.Fly)
+            {
+                this.AnimalLimbType = AnimalEnums.LimbType.Legs;
+            }
         }
     }
 }

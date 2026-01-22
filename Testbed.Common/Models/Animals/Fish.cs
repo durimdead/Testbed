@@ -12,7 +12,7 @@ namespace Testbed.Common.Models.Animals
         public override string AnimalSound { get; } = "Blub";
         public override string Name { get; set; }
         public override int NumberOfLimbs { get; } = 2;
-        public override AnimalEnums.LimbType AnimalLimbType { get; } = AnimalEnums.LimbType.Fins;
+        public override AnimalEnums.LimbType AnimalLimbType { get; private protected set; } = AnimalEnums.LimbType.Fins;
         public override AnimalEnums.TravelType AnimalTravelType { get; }
 
         /// <summary>
