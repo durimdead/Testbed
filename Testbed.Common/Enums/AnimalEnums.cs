@@ -15,5 +15,12 @@ namespace Testbed.Common.Enums
             Swim,
             Walk,
         }
+
+        public enum LimbType
+        {
+            Legs,
+            Wings,
+            Fins
+        }
     }
 }

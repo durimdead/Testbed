@@ -11,6 +11,8 @@ namespace Testbed.Common.Models.Animals
     {
         public override string Name { get; set; }
         public override string AnimalSound { get; } = "Woof";
+        public override int NumberOfLimbs { get; } = 4;
+        public override AnimalEnums.LimbType AnimalLimbType { get; } = AnimalEnums.LimbType.Legs;
         public override AnimalEnums.TravelType AnimalTravelType { get; }
 
         /// <summary>
